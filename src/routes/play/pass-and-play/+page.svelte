@@ -5,7 +5,7 @@
 	let usedLetters: string[] = [];
 	export let data;
 
-	let { letters, category } = data;
+	let { letters, categories } = data;
 	function shuffle(array: string[]) {
 		let currentIndex = array.length;
 
@@ -25,7 +25,6 @@
 	let difficulty = 'Select Difficulty';
 	let showCategory = false;
 	let reset = false;
-	let openSettings = false;
 
 	let timer = 8;
 	let seconds: number = timer;
@@ -45,8 +44,25 @@
 		}, 1000);
 	};
 
+	let introduceCategoryInterval: any;
+	let introduceCategory = false;
+	const startCategoryCountdown = () => {
+		introduceCategoryInterval = setInterval(() => {
+			introduceCategory = false;
+			startCountdown();
+
+			return clearInterval(introduceCategoryInterval);
+		}, 4000);
+	};
+
+	let category: string;
+	const getRandomCategory = () => {
+		return categories[Math.floor(Math.random() * categories.length)];
+	};
 	$: if (showCategory) {
-		startCountdown();
+		introduceCategory = true;
+		category = getRandomCategory();
+		startCategoryCountdown();
 	}
 
 	$: if (seconds === 0) {
@@ -55,6 +71,7 @@
 
 	onDestroy(() => {
 		clearInterval(interval);
+		clearInterval(introduceCategoryInterval);
 	});
 </script>
 
@@ -69,7 +86,10 @@
 				<button
 					onclick={() => {
 						showCategory = true;
-						letters = shuffle(letters);
+						letters =
+							difficulty === 'Normal' || difficulty === 'Select Difficulty'
+								? letters.sort()
+								: shuffle(letters);
 						reset = false;
 						resetClock();
 					}}
@@ -80,7 +100,7 @@
 					<label class="flex items-center font-bold">
 						Timer
 						<input
-							class="w-full rounded-lg px-2 py-3"
+							class="ml-2 w-full rounded-lg px-2 py-3"
 							type="number"
 							name="timer"
 							bind:value={timer}
@@ -125,20 +145,23 @@
 					</div>
 				</div>
 			</div>
+		{:else if introduceCategory}
+			<p>This round's category is: <span class="animate-fade-in">{category}</span></p>
 		{:else}
 			<div class="flex justify-between">
 				<div class="flex items-center text-8xl">
 					<p in:fade>{category}</p>
 				</div>
 				<p class="text-8xl">{seconds}</p>
+				<p>{usedLetters.at(-1)}</p>
 			</div>
 		{/if}
 	</div>
 
 	<div class={`${showCategory ? 'grid' : 'hidden'} grid-cols-12 gap-3`} in:fade>
-		{#each letters as letter}
+		{#each letters as letter, index}
 			<button
-				class={`${!usedLetters.includes(letter) ? 'btn' : 'btn btn-disabled'}`}
+				class={`${!usedLetters.includes(letter) ? 'btn' : 'animate-spin-out btn btn-disabled'} ${difficulty === 'I Cant Read' ? `animate-slow-spin` : ''}`}
 				onclick={() => {
 					if (seconds !== 0) {
 						usedLetters = [...usedLetters, letter];
@@ -161,3 +184,44 @@
 		>
 	{/if}
 </div>
+
+<style>
+	@keyframes spin {
+		to {
+			transform: rotate(360deg);
+		}
+	}
+	.animate-slow-spin {
+		animation: spin 5s linear infinite;
+	}
+
+	@keyframes spin-out {
+		25% {
+			transform: translateY(-10px);
+		}
+		to {
+			opacity: 0;
+			font-size: xx-small;
+			visibility: hidden;
+			transform: rotate(360deg) translateY(40px);
+		}
+	}
+	.animate-spin-out {
+		animation: spin-out 1s linear forwards;
+	}
+
+	@keyframes fade-in {
+		from {
+			opacity: 0;
+		}
+		50% {
+			opacity: 0;
+		}
+		to {
+			opacity: 100;
+		}
+	}
+	.animate-fade-in {
+		animation: fade-in 2s linear forwards;
+	}
+</style>

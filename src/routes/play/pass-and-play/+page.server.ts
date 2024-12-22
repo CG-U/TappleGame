@@ -1,5 +1,5 @@
 export const load = () => {
-	const categories = ['country'];
+	const categories = ['country', 'food'];
 	const letters = [
 		'A',
 		'B',
@@ -30,7 +30,7 @@ export const load = () => {
 	];
 
 	return {
-		category: categories[Math.floor(Math.random() * categories.length)],
-		letters: letters
+		categories,
+		letters
 	};
 };
