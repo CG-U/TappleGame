@@ -2,8 +2,8 @@
 	let { children } = $props();
 </script>
 
-<div class="flex h-full flex-col">
-	<a href="/" aria-label="go back to main menu">
+<div class="relative flex h-full flex-col">
+	<a href="/" aria-label="go back to main menu" class="absolute left-0 top-0">
 		<!-- chevron_left -->
 		<svg
 			xmlns="http://www.w3.org/2000/svg"

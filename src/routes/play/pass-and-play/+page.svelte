@@ -76,10 +76,10 @@
 </script>
 
 <div
-	class="mx-auto flex h-full w-full max-w-3xl flex-col items-center justify-center space-y-20 px-8"
+	class="relative mx-auto flex h-full w-full max-w-3xl flex-col items-center justify-center space-y-20 px-8"
 >
-	<div class="w-full rounded-lg p-2">
-		<h1 class="text-orange-600">tapple</h1>
+	<div class={`w-full rounded-lg p-2 ${showCategory ? 'flex justify-center' : ''} `}>
+		<h1 class={`text-orange-600 ${showCategory ? 'hidden' : ''}`}>tapple</h1>
 
 		{#if !showCategory}
 			<div class="flex flex-col items-center space-y-2">
@@ -104,6 +104,7 @@
 							type="number"
 							name="timer"
 							bind:value={timer}
+							min="0"
 						/>
 					</label>
 					<div class="dropdown dropdown-bottom dropdown-hover flex-1">
@@ -131,38 +132,33 @@
 									>Dyslexic
 								</button>
 							</li>
-							<li class="transition-all duration-300 hover:text-lg">
-								<button
-									onclick={() => {
-										difficulty = 'I Cant Read';
-									}}
-									class="flex justify-center"
-								>
-									I Cant Read
-								</button>
-							</li>
 						</ul>
 					</div>
 				</div>
 			</div>
 		{:else if introduceCategory}
-			<p>This round's category is: <span class="animate-fade-in">{category}</span></p>
-		{:else}
-			<div class="flex justify-between">
-				<div class="flex items-center text-8xl">
-					<p in:fade>{category}</p>
-				</div>
-				<p class="text-8xl">{seconds}</p>
-				<p>{usedLetters.at(-1)}</p>
-			</div>
+			<p class="absolute">
+				This round's category is: <span class="animate-fade-in">{category}</span>
+			</p>
 		{/if}
 	</div>
 
-	<div class={`${showCategory ? 'grid' : 'hidden'} grid-cols-12 gap-3`} in:fade>
+	<!-- Letters -->
+	<div
+		class={`${category && showCategory && !introduceCategory ? 'circle' : 'hidden'} relative`}
+		in:fade
+	>
+		<p
+			class={`${seconds > 6 ? 'text-green-300' : seconds < 3 ? 'text-red-600' : 'text-yellow-600'} text-3xl`}
+			hidden={seconds === 0}
+		>
+			{seconds}
+		</p>
 		{#each letters as letter, index}
 			<button
 				class={`${!usedLetters.includes(letter) ? 'btn' : 'animate-spin-out btn btn-disabled'} ${difficulty === 'I Cant Read' ? `animate-slow-spin` : ''}`}
-				onclick={() => {
+				style="--index: {index}; --total: {letters.length}; --offset: 220px"
+				onmousedown={() => {
 					if (seconds !== 0) {
 						usedLetters = [...usedLetters, letter];
 						resetClock();
@@ -171,6 +167,14 @@
 				disabled={!showCategory}>{letter}</button
 			>
 		{/each}
+		<div class="circle">
+			{#if category}
+				<p style="--index: {1};" class="animate-fade-in whitespace-nowrap">{category}</p>
+				<p style="--index: {2};" class="animate-fade-in whitespace-nowrap">{category}</p>
+				<p style="--index: {3};" class="animate-fade-in whitespace-nowrap">{category}</p>
+				<p style="--index: {4};" class="animate-fade-in whitespace-nowrap">{category}</p>
+			{/if}
+		</div>
 	</div>
 
 	{#if reset}
@@ -180,6 +184,7 @@
 				usedLetters = [];
 				showCategory = false;
 				reset = false;
+				category = '';
 			}}>RESET</button
 		>
 	{/if}
@@ -223,5 +228,40 @@
 	}
 	.animate-fade-in {
 		animation: fade-in 2s linear forwards;
+	}
+
+	.circle {
+		position: absolute;
+		border-radius: 50%;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		top: 0;
+		bottom: 0;
+	}
+
+	.circle p {
+		position: absolute;
+		transform: rotate(calc(360deg / 4 * var(--index))) translate(270px)
+			rotate(calc(-360deg / 4 * var(--index))) rotate(calc(270deg + var(--index) * 90deg));
+	}
+
+	.circle button {
+		position: absolute;
+		transform: rotate(calc(360deg / var(--total) * var(--index))) translate(220px)
+			rotate(calc(-360deg / var(--total) * var(--index)))
+			rotate(calc(270deg + var(--index) * 13.84deg));
+	}
+
+	@media (max-width: 800px) {
+		.circle p {
+			position: absolute;
+			transform: rotate(calc(360deg / 4 * var(--index))) translate(170px)
+				rotate(calc(-360deg / 4 * var(--index))) rotate(calc(270deg + var(--index) * 90deg));
+		}
+		.circle button {
+			transform: rotate(calc(360deg / var(--total) * var(--index))) translate(150px)
+				rotate(calc(-360deg / var(--total) * var(--index)));
+		}
 	}
 </style>

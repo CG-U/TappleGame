@@ -1,5 +1,28 @@
 export const load = () => {
-	const categories = ['country', 'food'];
+	const categories = [
+		'country',
+		'food',
+		'animal',
+		'city',
+		'movie',
+		'book',
+		'celebrity',
+		'brand',
+		'song',
+		'plant',
+		'historical figure',
+		'tangible object',
+		'game',
+		'superhero',
+		'villain',
+		'cartoon',
+		'tv show',
+		'website',
+		'school subject',
+		'hobby',
+		'genre',
+		'recipe'
+	];
 	const letters = [
 		'A',
 		'B',
