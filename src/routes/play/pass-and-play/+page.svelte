@@ -76,9 +76,11 @@
 </script>
 
 <div
-	class="relative mx-auto flex h-full w-full max-w-3xl flex-col items-center justify-center space-y-20 px-8"
+	class="relative mx-auto flex h-full w-full max-w-3xl flex-col items-center justify-center px-8"
 >
-	<div class={`w-full rounded-lg p-2 ${showCategory ? 'flex justify-center' : ''} `}>
+	<div
+		class={`relative w-full rounded-lg p-2 ${showCategory ? 'flex justify-center' : ''} ${showCategory && !introduceCategory ? 'hidden' : ''}`}
+	>
 		<h1 class={`text-orange-600 ${showCategory ? 'hidden' : ''}`}>tapple</h1>
 
 		{#if !showCategory}
@@ -137,17 +139,15 @@
 				</div>
 			</div>
 		{:else if introduceCategory}
-			<p class="absolute">
-				This round's category is: <span class="animate-fade-in">{category}</span>
-			</p>
+			<div class="absolute bottom-0 top-0 flex flex-col items-center space-y-2">
+				<p>This round's category is:</p>
+				<p class="animate-fade-in text-3xl capitalize text-orange-600">{category}</p>
+			</div>
 		{/if}
 	</div>
 
 	<!-- Letters -->
-	<div
-		class={`${category && showCategory && !introduceCategory ? 'circle' : 'hidden'} relative`}
-		in:fade
-	>
+	<div class={`${category && showCategory && !introduceCategory ? 'circle' : 'hidden'}`} in:fade>
 		<p
 			class={`${seconds > 6 ? 'text-green-300' : seconds < 3 ? 'text-red-600' : 'text-yellow-600'} text-3xl`}
 			hidden={seconds === 0}
@@ -158,7 +158,7 @@
 			<button
 				class={`${!usedLetters.includes(letter) ? 'btn' : 'animate-spin-out btn btn-disabled'} ${difficulty === 'I Cant Read' ? `animate-slow-spin` : ''}`}
 				style="--index: {index}; --total: {letters.length}; --offset: 220px"
-				onmousedown={() => {
+				onclick={() => {
 					if (seconds !== 0) {
 						usedLetters = [...usedLetters, letter];
 						resetClock();
@@ -169,10 +169,18 @@
 		{/each}
 		<div class="circle">
 			{#if category}
-				<p style="--index: {1};" class="animate-fade-in whitespace-nowrap">{category}</p>
-				<p style="--index: {2};" class="animate-fade-in whitespace-nowrap">{category}</p>
-				<p style="--index: {3};" class="animate-fade-in whitespace-nowrap">{category}</p>
-				<p style="--index: {4};" class="animate-fade-in whitespace-nowrap">{category}</p>
+				<p style="--index: {1};" class="animate-fade-in hidden whitespace-nowrap md:block">
+					{category}
+				</p>
+				<p style="--index: {2};" class="animate-fade-in hidden whitespace-nowrap md:block">
+					{category}
+				</p>
+				<p style="--index: {3};" class="animate-fade-in hidden whitespace-nowrap md:block">
+					{category}
+				</p>
+				<p style="--index: {4};" class="animate-fade-in hidden whitespace-nowrap md:block">
+					{category}
+				</p>
 			{/if}
 		</div>
 	</div>
@@ -253,15 +261,16 @@
 			rotate(calc(270deg + var(--index) * 13.84deg));
 	}
 
-	@media (max-width: 800px) {
+	@media (max-width: 700px) {
 		.circle p {
 			position: absolute;
-			transform: rotate(calc(360deg / 4 * var(--index))) translate(170px)
+			transform: rotate(calc(360deg / 4 * var(--index))) translate(190px)
 				rotate(calc(-360deg / 4 * var(--index))) rotate(calc(270deg + var(--index) * 90deg));
 		}
 		.circle button {
 			transform: rotate(calc(360deg / var(--total) * var(--index))) translate(150px)
-				rotate(calc(-360deg / var(--total) * var(--index)));
+				rotate(calc(-360deg / var(--total) * var(--index)))
+				rotate(calc(270deg + var(--index) * 13.84deg));
 		}
 	}
 </style>

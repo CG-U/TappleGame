@@ -21,7 +21,19 @@ export const load = () => {
 		'school subject',
 		'hobby',
 		'genre',
-		'recipe'
+		'recipe',
+		'fruits',
+		'color',
+		'things',
+		'ice cream flavor',
+		'clothing brand',
+		'appliances',
+		'boys name',
+		'girls name',
+		'flower',
+		'things you see at the funeral',
+		'famous person',
+		'famous place'
 	];
 	const letters = [
 		'A',

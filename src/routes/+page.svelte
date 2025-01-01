@@ -8,7 +8,7 @@
 	}
 </script>
 
-<div class=" flex h-full w-full flex-col items-center justify-center space-y-8">
+<div class="flex h-full w-full flex-col items-center justify-center space-y-8">
 	<h1 class="text-9xl">Tapple</h1>
 	<section aria-label="mode section" class="flex flex-col space-y-2">
 		<a class="btn border-primary text-primary" href="/play/pass-and-play">Pass and Play</a>
