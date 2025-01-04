@@ -126,10 +126,10 @@
 							<li class="transition-all duration-300 hover:text-lg">
 								<button
 									onclick={() => {
-										difficulty = 'Dyslexic';
+										difficulty = 'Jumbled';
 									}}
 									class="flex justify-center"
-									>Dyslexic
+									>Jumbled
 								</button>
 							</li>
 						</ul>
