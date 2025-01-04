@@ -158,7 +158,7 @@
 			<button
 				class={`${!usedLetters.includes(letter) ? 'btn' : 'animate-spin-out btn btn-disabled'} ${difficulty === 'I Cant Read' ? `animate-slow-spin` : ''}`}
 				style="--index: {index}; --total: {letters.length}; --offset: 220px"
-				onclick={() => {
+				onpointerdown={() => {
 					if (seconds !== 0) {
 						usedLetters = [...usedLetters, letter];
 						resetClock();
