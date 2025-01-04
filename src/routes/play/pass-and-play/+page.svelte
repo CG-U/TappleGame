@@ -185,13 +185,13 @@
 
 	{#if reset}
 		<button
-			class="btn btn-error"
+			class={`${usedLetters.length === letters.length ? 'btn-success' : 'btn-error'} btn`}
 			onclick={() => {
 				usedLetters = [];
 				showCategory = false;
 				reset = false;
 				category = '';
-			}}>RESET</button
+			}}>{usedLetters.length === letters.length ? 'Challenge Completed' : 'Reset'}</button
 		>
 	{/if}
 </div>
