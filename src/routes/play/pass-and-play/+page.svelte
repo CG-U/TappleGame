@@ -26,7 +26,7 @@
 	let showCategory = false;
 	let reset = false;
 
-	let timer = 8;
+	let timer = 10;
 	let seconds: number = timer;
 
 	function resetClock() {
@@ -106,7 +106,7 @@
 							type="number"
 							name="timer"
 							bind:value={timer}
-							min="0"
+							min="1"
 						/>
 					</label>
 					<div class="dropdown dropdown-bottom dropdown-hover flex-1">
@@ -149,7 +149,7 @@
 	<!-- Letters -->
 	<div class={`${category && showCategory && !introduceCategory ? 'circle' : 'hidden'}`} in:fade>
 		<p
-			class={`${seconds > 6 ? 'text-green-300' : seconds < 3 ? 'text-red-600' : 'text-yellow-600'} text-3xl`}
+			class={`${seconds > 6 ? 'text-green-300' : seconds < 3 ? 'text-red-600' : 'text-yellow-600'} !rotate-90 !transform text-3xl`}
 			hidden={seconds === 0}
 		>
 			{seconds}
@@ -241,6 +241,7 @@
 	.circle {
 		position: absolute;
 		border-radius: 50%;
+		transform: rotate(-90deg);
 		display: flex;
 		justify-content: center;
 		align-items: center;

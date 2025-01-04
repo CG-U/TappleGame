@@ -16,7 +16,7 @@
 
 		<button class="btn" onclick={openModal}>How to Play</button>
 		<dialog bind:this={modal} class="modal">
-			<div class="modal-box flex flex-col space-y-4">
+			<div class="modal-box flex flex-col items-center justify-center space-y-4">
 				<h3 class="text-lg font-bold">Game Mechanics</h3>
 				<div class="space-y-4">
 					<p>At the start of the game, a category will be provided to the group.</p>
