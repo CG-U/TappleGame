@@ -75,9 +75,7 @@
 	});
 </script>
 
-<div
-	class="relative mx-auto flex h-full w-full max-w-3xl flex-col items-center justify-center px-8"
->
+<div class="relative mx-auto flex h-full w-full flex-col items-center justify-center px-8">
 	<div
 		class={`relative w-full rounded-lg p-2 ${showCategory ? 'flex justify-center' : ''} ${showCategory && !introduceCategory ? 'hidden' : ''}`}
 	>

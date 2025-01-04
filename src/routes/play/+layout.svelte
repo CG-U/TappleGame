@@ -2,7 +2,7 @@
 	let { children } = $props();
 </script>
 
-<div class="relative flex h-full flex-col">
+<div class="relative flex h-screen w-screen flex-col overflow-clip">
 	<a href="/" aria-label="go back to main menu" class="absolute left-0 top-0">
 		<!-- chevron_left -->
 		<svg
